@@ -1,4 +1,4 @@
-#!/home/user/tugas-project-digital-skola-devops/venv/bin/python3
+#!/home/user/tugas-project-digital-skola-devops/venv/bin/python
 # -*- coding: utf-8 -*-
 import re
 import sys
