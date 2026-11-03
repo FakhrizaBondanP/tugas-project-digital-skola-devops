@@ -68,6 +68,32 @@ jobs:
       - name: Checkout Repository
         uses: actions/checkout@v3
 
+      - name: Set up Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: '20'
+
+      - name: Install Dependencies
+        run: npm ci
+
+      - name: Start Notes App
+        run: |
+          npm start > app.log 2>&1 &
+          echo $! > app.pid
+
+      - name: Wait for Application
+        run: |
+          for i in {1..30}; do
+            if curl -fsS http://localhost:3000/; then
+              echo "Application is ready"
+              exit 0
+            fi
+            sleep 2
+          done
+          echo "Application failed to start"
+          cat app.log
+          exit 1
+
       - name: Setup k6 binary
         uses: grafana/setup-k6-action@v1
 
